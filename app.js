@@ -2,8 +2,8 @@ const keyPublishable = process.env.PUBLISHABLE_KEY;
 const keySecret = process.env.SECRET_KEY;
 
 const express = require("express");
-const stripe = require("stripe")(keySecret);
 const bodyParser = require("body-parser");
+const stripe = require("stripe")(keySecret);
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
