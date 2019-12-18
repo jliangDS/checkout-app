@@ -13,7 +13,8 @@ const corsOptions = {
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use('/api', cors(corsOptions), getAllPlans)
+app.use(cors(corsOptions))
+app.use('/api', getAllPlans)
 
 const req = {};
 const res = {
@@ -33,6 +34,7 @@ async function getAllPlans(req, res, next){
 }
 getAllPlans(req, res, next);
 
+app.options('*', cors(corsOptions))
 app.get('/home', (req, res) => {
     res.send('Home Page');
 });
@@ -44,6 +46,10 @@ app.get('/about', (req, res) => {
 app.get('/movies/:MovieId', (req, res) => {
     res.send(req.params);
 });
+
+app.post('/create', (req, res) => {
+    console.log(req.body.payload)
+})
 
 app.post("/charge", (req, res) => {
     let amount = 10000;
