@@ -2,13 +2,18 @@ const keyPublishable = process.env.PUBLISHABLE_KEY;
 const keySecret = process.env.SECRET_KEY;
 
 const express = require("express");
+const cors = require('cors')
 const bodyParser = require("body-parser");
 const stripe = require("stripe")(keySecret);
 const app = express();
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use('/api', getAllPlans)
+app.use('/api', cors(corsOptions), getAllPlans)
 
 const req = {};
 const res = {
@@ -26,7 +31,6 @@ async function getAllPlans(req, res, next){
     const plans = await stripe.plans.list({expand: ["data.product"]});
     res.json(plans)
 }
-
 getAllPlans(req, res, next);
 
 app.get('/home', (req, res) => {
@@ -37,7 +41,7 @@ app.get('/about', (req, res) => {
     res.send('About');
 });
 
-app.get('/books/:bookId', (req, res) => {
+app.get('/movies/:MovieId', (req, res) => {
     res.send(req.params);
 });
 
