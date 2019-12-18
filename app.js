@@ -48,7 +48,11 @@ app.get('/movies/:MovieId', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
-    console.log(req.body.payload)
+    stripe.charges.create({
+        amount: req.body.amount,
+        currency: 'usd',
+        source: req.body.payload.token.id,
+    })
 })
 
 app.post("/charge", (req, res) => {
